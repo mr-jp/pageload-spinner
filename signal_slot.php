@@ -7,6 +7,8 @@
  * Each slot has an object, method name and signal name
  * You register the objects via connect(), supplying the object, method name and signal name
  * Once dispatch() is called with a signal, we go through each slot and call the given function
+ * 
+ * This file will output a var_dump of the service object, and a list of messages from the 2 objects
  */
 class DispatcherService {
 

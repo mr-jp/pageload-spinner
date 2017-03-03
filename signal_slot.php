@@ -7,7 +7,6 @@
  * Each slot has an object, method name and signal name
  * You register the objects via connect(), supplying the object, method name and signal name
  * Once dispatch() is called with a signal, we go through each slot and call the given function
- * 
  * This file will output a var_dump of the service object, and a list of messages from the 2 objects
  */
 class DispatcherService {
@@ -15,13 +14,13 @@ class DispatcherService {
 	/**
 	 * @var array List of slots
 	 */
-	public $slots = array();
+	public $slots = [];
 
 	/**
 	 * Register the object
-	 * @param $obj Object to register
-	 * @param $method Name of the Method to register
-	 * @param $signalName Signal to listen for this slot
+	 * @param object $obj Object to register
+	 * @param string $method Name of the Method to register
+	 * @param string $signalName Signal to listen for this slot
 	 */
 	public function connect($obj, $method, $signalName) {
 

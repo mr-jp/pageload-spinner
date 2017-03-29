@@ -3,7 +3,6 @@ window.TD = window.TD || {};
 TD.PageloadSpinner =
 {
     attachPageLoadSpinner: function() {
-        console.log("hello");
         //Attach the spinner to links
         jQuery('a').on('click', function(e) {
             var target = jQuery(this).attr("target");
@@ -24,6 +23,14 @@ TD.PageloadSpinner =
 
         //Attach the spinner to forms
         jQuery('form').on('submit', function(e) {
+            //No spinner for forms that target another window
+            if (TD.PageloadSpinner.checkAttribute(e.currentTarget, 'target')) {
+                var target = jQuery(e.currentTarget).attr("target");
+                if (target !== '' && target !== '_self' && target !== '_top') {
+                    return;
+                }
+            }
+
             //Only show after 0.3 seconds delay
             setTimeout(TD.PageloadSpinner.showSpinner(e), 300);
         });
@@ -80,9 +87,8 @@ TD.PageloadSpinner =
         }
 
         //Check if the element has any of these attributes
-        attributes.forEach(function(item) {
-            var attribute = jQuery(e).attr(item);
-            if (typeof attribute !== typeof undefined && attribute !== false) {
+        attributes.forEach(function(attributeName) {
+            if (TD.PageloadSpinner.checkAttribute(e, attributeName)) {
                 attributeFound = true;
             }
         });
@@ -94,6 +100,14 @@ TD.PageloadSpinner =
 
         //Not an AJAX function if it reached here
         return false;
+    },
+    checkAttribute: function(element, attributeName) {
+        var attribute = jQuery(element).attr(attributeName);
+        if (typeof attribute !== typeof undefined && attribute !== false) {
+            return true;
+        } else {
+            return false;
+        }
     }
 };
 

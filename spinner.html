@@ -18,11 +18,18 @@
     <li><a href="javascript:void(0)">No spinner (AJAX call with some weird href)</a></li>
     <li><a href="https://originmit.topdanmark.dk/skader/" data-id="something">No spinner (AJAX call with data-id)</a></li>
     <li><a href="https://originmit.topdanmark.dk/skader/" data-ajaxurl="something">No spinner (AJAX call with data-ajaxurl)</a></li>
-    <li><a href="http://gooogle.com" target="_new">No the spinner, will open a new window. Example PDF pages (target = _new)</a></li>
-    <li><a href="http://gooogle.com" target="_blank">No the spinner, will open a new window. Example PDF pages (target = _blank)</a></li>
+    <li><a href="http://gooogle.com" target="_new">No spinner, will open a new window. Example PDF pages (target = _new)</a></li>
+    <li><a href="http://gooogle.com" target="_blank">No spinner, will open a new window. Example PDF pages (target = _blank)</a></li>
 </ul>
 <form action="https://originmit.topdanmark.dk/skader/" method="GET">
-    <p>This would submit a form. It should show the spinner</p>
+    <p>Show spinner, submit a form</p>
+    <input name="q">
+    <input type="submit" value="Input"/>
+    <button type="submit">Button</button>
+</form>
+<form action="https://originmit.topdanmark.dk/skader/" method="GET" target="_blank">
+    <!-- Also accepted are targets _blank, _top and "" -->
+    <p>No spinner, submit form that targets a new window</p>
     <input name="q">
     <input type="submit" value="Input"/>
     <button type="submit">Button</button>

@@ -5,19 +5,23 @@
     <title>Spinner</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery-3.2.0.slim.min.js"></script>
-    <script src="js/utils.js"></script>
+    <script src="js/pageload-spinner.js"></script>
 </head>
 <body>
-<div class="pageload-spinner"></div>
+<div class="pageload pageload-overlay"></div>
+<div class="pageload pageload-spinner"></div>
 <h1>Spinner Test</h1>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex, odio.</p>
 <ul>
-    <li><a href="http://google.com">Show spinner after 0.3 seconds delay</a></li>
-    <li><a href="#">Don't show spinner (could be an AJAX call)</a></li>
-    <li><a href="http://gooogle.com" target="_new">Don't show the spinner, will open a new window. Example PDF or Skader pages (target = _new)</a></li>
-    <li><a href="http://gooogle.com" target="_blank">Don't show the spinner, will open a new window. Example PDF or Skader pages (target = _blank)</a></li>
+    <li><a href="https://originmit.topdanmark.dk/skader/">Show spinner after 0.3 seconds delay</a></li>
+    <li><a href="#">No spinner (AJAX call)</a></li>
+    <li><a href="javascript:void(0)">No spinner (AJAX call with some weird href)</a></li>
+    <li><a href="https://originmit.topdanmark.dk/skader/" data-id="something">No spinner (AJAX call with data-id)</a></li>
+    <li><a href="https://originmit.topdanmark.dk/skader/" data-ajaxurl="something">No spinner (AJAX call with data-ajaxurl)</a></li>
+    <li><a href="http://gooogle.com" target="_new">No the spinner, will open a new window. Example PDF pages (target = _new)</a></li>
+    <li><a href="http://gooogle.com" target="_blank">No the spinner, will open a new window. Example PDF pages (target = _blank)</a></li>
 </ul>
-<form action="http://google.com" method="GET">
+<form action="https://originmit.topdanmark.dk/skader/" method="GET">
     <p>This would submit a form. It should show the spinner</p>
     <input name="q">
     <input type="submit" value="Input"/>

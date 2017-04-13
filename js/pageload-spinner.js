@@ -3,9 +3,24 @@ window.TD = window.TD || {};
 TD.PageloadSpinner =
 {
     attachPageLoadSpinner: function() {
+
+        var body = jQuery('body');
+
         //Attach the spinner to links
-        jQuery('a').on('click', function(e) {
-            var target = jQuery(this).attr("target");
+        body.on('click', 'a', function(e) {
+            var element = jQuery(this);
+            var target = element.attr("target");
+            var href = element.attr("href");
+
+            //Spinner only for links that have the spinner attribute
+            if (TD.PageloadSpinner.checkAttribute(element, 'data-spinner') == false) {
+                return;
+            }
+
+            //No spinner for anchor links
+            if (href.substring(0,1) == '#') {
+                return;
+            }
 
             //No spinner for links that open a new window (example PDF)
             if (target == "_new" || target == "_blank") {
@@ -17,23 +32,45 @@ TD.PageloadSpinner =
                 return;
             }
 
-            //Only show after 0.3 seconds delay
-            setTimeout(TD.PageloadSpinner.showSpinner(e), 300);
-        });
-
-        //Attach the spinner to forms
-        jQuery('form').on('submit', function(e) {
-            //No spinner for forms that target another window
-            if (TD.PageloadSpinner.checkAttribute(e.currentTarget, 'target')) {
-                var target = jQuery(e.currentTarget).attr("target");
-                if (target !== '' && target !== '_self' && target !== '_top') {
-                    return;
-                }
+            //No spinner for links that have the attribute 'nospinner'
+            if (TD.PageloadSpinner.checkAttribute(target, 'nospinner')) {
+                return;
             }
 
             //Only show after 0.3 seconds delay
             setTimeout(TD.PageloadSpinner.showSpinner(e), 300);
         });
+
+        //Attach the spinner to forms
+        body.on('submit', 'form', function(e) {
+            var currentTarget = e.currentTarget;
+
+            //Spinner only for forms that have the spinner attribute
+            if (TD.PageloadSpinner.checkAttribute(currentTarget, 'data-spinner') == false) {
+                return;
+            }
+
+            //No spinner for forms that target another window
+            if (TD.PageloadSpinner.checkAttribute(currentTarget, 'target')) {
+                var target = jQuery(currentTarget).attr("target");
+                if (target !== '' && target !== '_self' && target !== '_top') {
+                    return;
+                }
+            }
+
+            //No spinner for forms that have the attribute 'nospinner'
+            if (TD.PageloadSpinner.checkAttribute(currentTarget, 'nospinner')) {
+                return;
+            }
+
+            //Only show after 0.3 seconds delay
+            setTimeout(TD.PageloadSpinner.showSpinner(e), 300);
+        });
+    },
+    renderSpinner: function() {
+        //Show the page load spinner
+        jQuery('.pageload').show();
+        jQuery('body').trigger('TD.pageloadspinner.start');
     },
     showSpinner: function(e) {
         //Get the type of element
@@ -42,8 +79,7 @@ TD.PageloadSpinner =
         //Don't submit form or follow link yet
         e.preventDefault();
 
-        //Show the page load spinner
-        jQuery('.pageload').show();
+        this.renderSpinner();
 
         //Redirect for links
         if (eventType == 'click') {
@@ -56,6 +92,10 @@ TD.PageloadSpinner =
 
         //Reload the spinner (because IE freezes GIFs during a page load, thanks Microsoft)
         TD.PageloadSpinner.reloadSpinner();
+    },
+    hideSpinner: function() {
+        jQuery('.pageload').hide();
+        jQuery('body').trigger('TD.pageloadspinner.stop');
     },
     reloadSpinner: function() {
         //Get the background image url (absolute)
@@ -108,9 +148,19 @@ TD.PageloadSpinner =
         } else {
             return false;
         }
+    },
+    escKeyListener: function() {
+        jQuery(document).keyup(function (e) {
+            if (e.keyCode == 27) {
+                jQuery('.pageload').hide();
+            }
+        });
     }
 };
 
 jQuery(function() {
+    TD.Pageloadspinner.renderSpinner();
+    TD.Pageloadspinner.hideSpinner();
     TD.PageloadSpinner.attachPageLoadSpinner();
+    TD.PageloadSpinner.escKeyListener();
 });

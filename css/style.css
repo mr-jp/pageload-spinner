@@ -1,6 +1,6 @@
 .pageload-overlay {
     display: none;
-    position:absolute;
+    position: fixed;
     top:0;
     left:0;
     width:100%;
@@ -14,7 +14,7 @@
     background-image: url('../img/loading-64.gif');
     background-repeat: no-repeat;
     background-origin: content-box;
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
     margin-left: -32px; /* -1 * image width / 2 */

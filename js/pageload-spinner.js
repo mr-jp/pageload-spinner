@@ -70,7 +70,6 @@ TD.PageloadSpinner =
     renderSpinner: function() {
         //Show the page load spinner
         jQuery('.pageload').show();
-        jQuery('body').trigger('TD.pageloadspinner.start');
     },
     showSpinner: function(e) {
         //Get the type of element
@@ -80,6 +79,8 @@ TD.PageloadSpinner =
         e.preventDefault();
 
         this.renderSpinner();
+
+        jQuery('body').trigger('TD.pageloadspinner.start');
 
         //Redirect for links
         if (eventType == 'click') {
@@ -152,15 +153,14 @@ TD.PageloadSpinner =
     escKeyListener: function() {
         jQuery(document).keyup(function (e) {
             if (e.keyCode == 27) {
-                jQuery('.pageload').hide();
+                //jQuery('.pageload').hide();
+                TD.PageloadSpinner.hideSpinner();
             }
         });
     }
 };
 
 jQuery(function() {
-    TD.Pageloadspinner.renderSpinner();
-    TD.Pageloadspinner.hideSpinner();
     TD.PageloadSpinner.attachPageLoadSpinner();
     TD.PageloadSpinner.escKeyListener();
 });
